@@ -1,0 +1,7 @@
+pod "SEGModules", :path => "../SEGModules.podspec"
+
+target "Demo" do
+end
+
+target "DemoTests" do
+end
