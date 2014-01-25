@@ -7,18 +7,11 @@
 Pod::Spec.new do |s|
   s.name         = "SEGModules"
   s.version      = "0.1.0"
-  s.summary      = "A short description of SEGModules."
-  s.description  = <<-DESC
-                    An optional longer description of SEGModules
-
-                    * Markdown format.
-                    * Don't worry about the indent, we strip it!
-                   DESC
-  s.homepage     = "http://EXAMPLE/NAME"
-  s.screenshots  = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.summary      = "A library to bring modules/mixins/concrete protocols to Objective-C."
+  s.homepage     = "https://github.com/segiddins/SEGModules"
   s.license      = 'MIT'
   s.author       = { "Samuel E. Giddins" => "segiddins@segiddins.me" }
-  s.source       = { :git => "http://EXAMPLE/NAME.git", :tag => s.version.to_s }
+  s.source       = { :git => "#{s.homepage}.git", :tag => s.version.to_s }
 
   # s.platform     = :ios, '5.0'
   # s.ios.deployment_target = '5.0'
@@ -26,7 +19,6 @@ Pod::Spec.new do |s|
   s.requires_arc = false
 
   s.source_files = 'Classes'
-  s.resources = 'Assets'
 
   s.ios.exclude_files = 'Classes/osx'
   s.osx.exclude_files = 'Classes/ios'

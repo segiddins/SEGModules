@@ -1,7 +1,4 @@
-pod "SEGModules", :path => "../SEGModules.podspec"
-
-target "Demo" do
+target "SEGModules" do
+  pod "SEGModules", :path => "../SEGModules.podspec"
 end
 
-target "DemoTests" do
-end

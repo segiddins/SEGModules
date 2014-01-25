@@ -9,7 +9,13 @@
 #import "SEGModule.h"
 #import <objc/runtime.h>
 
+#ifdef DEBUG
 #define MDBLog(...) NSLog(__VA_ARGS__)
+static const char *true_s = "YES";
+static const char *false_s = "NO";
+#else
+#define MDBLog(...)
+#endif
 
 @implementation SEGModule
 
@@ -30,18 +36,18 @@ static void SEGCopyProtocolMethodsToClass(Protocol *protocol, Class protocolClas
             IMP moduleIMP = method_getImplementation(moduleMethod);
             if (moduleMethod) {
                 class_addMethod(class, method.name, moduleIMP, method.types);
-                MDBLog(@"Added %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+                MDBLog(@"Added %@ method %s (required method: %s, class method: %s) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), requiredMethods ? true_s : false_s, !instanceMethods ? true_s : false_s, class);
             } else {
-                MDBLog(@"Failed to add %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+                MDBLog(@"Failed to add %@ method %s (required method: %s, class method: %s) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), requiredMethods ? true_s : false_s, !instanceMethods ? true_s : false_s, class);
             }
         } else {
             Method moduleMethod = class_getClassMethod(protocolClass, method.name);
             IMP moduleIMP = method_getImplementation(moduleMethod);
             if (moduleMethod) {
                 class_addMethod(object_getClass(class), method.name, moduleIMP, method.types);
-                MDBLog(@"Added %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+                MDBLog(@"Added %@ method %s (required method: %s, class method: %s) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), requiredMethods ? true_s : false_s, !instanceMethods ? true_s : false_s, class);
             } else {
-                MDBLog(@"Failed to add %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+                MDBLog(@"Failed to add %@ method %s (required method: %s, class method: %s) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), requiredMethods ? true_s : false_s, !instanceMethods ? true_s : false_s, class);
             }
         }
     }
