@@ -21,7 +21,7 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    NSLog(@"%@", [self foo]);
+    NSLog(@"%@\n%@", [self foo], [[self class] optionalClassFoo]);
     return YES;
 }
 
@@ -60,9 +60,18 @@
 
 @implementation SEGApp
 
++ (NSString *)optionalClassFoo
+{
+    return @"optionalClassFoo!";
+}
+
 - (NSString *)foo
 {
     return @"foo!";
+}
+
+- (void)notAdded
+{
 }
 
 @end

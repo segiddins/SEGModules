@@ -9,6 +9,8 @@
 #import "SEGModule.h"
 #import <objc/runtime.h>
 
+#define MDBLog(...) NSLog(__VA_ARGS__)
+
 @implementation SEGModule
 
 @end
@@ -16,6 +18,35 @@
 @interface NSObject (SEGModule)
 
 @end
+
+static void SEGCopyProtocolMethodsToClass(Protocol *protocol, Class protocolClass, Class class, BOOL requiredMethods, BOOL instanceMethods)
+{
+    unsigned int methodCount = 0;
+    struct objc_method_description *methods = protocol_copyMethodDescriptionList(protocol, requiredMethods, instanceMethods, &methodCount);
+    for (int j = 0; j < methodCount; j++) {
+        struct objc_method_description method = methods[j];
+        if (instanceMethods) {
+            Method moduleMethod = class_getInstanceMethod(protocolClass, method.name);
+            IMP moduleIMP = method_getImplementation(moduleMethod);
+            if (moduleMethod) {
+                class_addMethod(class, method.name, moduleIMP, method.types);
+                MDBLog(@"Added %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+            } else {
+                MDBLog(@"Failed to add %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+            }
+        } else {
+            Method moduleMethod = class_getClassMethod(protocolClass, method.name);
+            IMP moduleIMP = method_getImplementation(moduleMethod);
+            if (moduleMethod) {
+                class_addMethod(object_getClass(class), method.name, moduleIMP, method.types);
+                MDBLog(@"Added %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+            } else {
+                MDBLog(@"Failed to add %@ method %s (required method: %d, class method: %d) to %@", protocolClass, sel_getName(method_getName(moduleMethod)), !!requiredMethods, !instanceMethods, class);
+            }
+        }
+    }
+    free(methods);
+}
 
 static void SEGLoadModulesForClass(Class class)
 {
@@ -27,19 +58,13 @@ static void SEGLoadModulesForClass(Class class)
         Class protocolClass = objc_getClass(protocolName);
         BOOL protocolClassIsModule = [protocolClass isSubclassOfClass:[SEGModule class]];
         if (protocolClass && protocolClassIsModule && protocolClass != class) {
-            NSLog(@"Class: %@\n"
-                   "Protocol: %s",
-                  protocolClass, protocolName);
-            unsigned int methodCount = 0;
-            struct objc_method_description *methods = protocol_copyMethodDescriptionList(protocol, YES, YES, &methodCount);
-            for (int j = 0; j < methodCount; j++) {
-                struct objc_method_description method = methods[j];
-                NSLog(@"\tMethod: %s", sel_getName(method.name));
-                IMP moduleIMP = class_getMethodImplementation(protocolClass, method.name);
-                class_addMethod(class, method.name, moduleIMP, method.types);
-            }
+            SEGCopyProtocolMethodsToClass(protocol, protocolClass, class, YES, YES);
+            SEGCopyProtocolMethodsToClass(protocol, protocolClass, class, YES, NO);
+            SEGCopyProtocolMethodsToClass(protocol, protocolClass, class, NO, YES);
+            SEGCopyProtocolMethodsToClass(protocol, protocolClass, class, NO, NO);
         }
     }
+    free(protocols);
 }
 
 @implementation NSObject (SEGModule)

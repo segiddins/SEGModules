@@ -12,6 +12,10 @@
 
 - (NSString *)foo;
 
+@optional
+
++ (NSString *)optionalClassFoo;
+
 @end
 
 @interface SEGAppDelegate : UIResponder <UIApplicationDelegate>
