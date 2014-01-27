@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SEGModules"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "A library to bring modules/mixins/concrete protocols to Objective-C."
   s.homepage     = "https://github.com/segiddins/SEGModules"
   s.license      = 'MIT'
