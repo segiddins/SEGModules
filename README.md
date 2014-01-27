@@ -1,7 +1,7 @@
 # SEGModules
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/SEGModules/badge.png)](http://cocoadocs.org/docsets/SEGModules)
-[![Platform](http://cocoapod-badges.herokuapp.com/p/SEGModules/badge.png)](http://cocoadocs.org/docsets/SEGModules)
+[![Version](https://cocoapod-badges.herokuapp.com/v/SEGModules/badge.png)](http://cocoadocs.org/docsets/SEGModules)
+[![Platform](https://cocoapod-badges.herokuapp.com/p/SEGModules/badge.png)](http://cocoadocs.org/docsets/SEGModules)
 
 ## Usage
 
