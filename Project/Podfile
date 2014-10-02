@@ -1,3 +1,5 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
 target "SEGModules" do
   pod "SEGModules", :path => "../SEGModules.podspec"
 end

@@ -1,5 +1,5 @@
 PODS:
-  - SEGModules (0.1.0)
+  - SEGModules (0.1.1)
 
 DEPENDENCIES:
   - SEGModules (from `../SEGModules.podspec`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ../SEGModules.podspec
 
 SPEC CHECKSUMS:
-  SEGModules: 608ba2e26b0a226faadc9c41f472eb5ae3b5015c
+  SEGModules: fda1cc12756891b5cae4e38108e7af52b8c344b0
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.34.1
